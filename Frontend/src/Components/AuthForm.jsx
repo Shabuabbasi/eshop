@@ -2,6 +2,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
 import { Link } from "react-router-dom";
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+
+
 
 const AuthForm = ({
   mode, // "Login" or "Signup"
@@ -102,13 +105,36 @@ const AuthForm = ({
                   </label>
                 ))}
               </div>
+
+              {/* Google Login - OUTSIDE the map */}
+              <div className="mt-6 ">
+                <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID" className="bg-blue-600 w-full text-white py-3 rounded-full font-medium ">
+                  <GoogleLogin
+                    onSuccess={credentialResponse => {
+                      fetch('http://localhost:5000/auth/google', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token: credentialResponse.credential }),
+                      })
+                        .then(res => res.json())
+                        .then(data => {
+                          console.log(data); // Save token to localStorage or context
+                        });
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
+                </GoogleOAuthProvider>
+              </div>
             </div>
           )}
 
 
 
+
           {mode === "Login" && (
-         <Link to="/forgot-password">   <p className="text-sm text-red-600 my-4 cursor-pointer">
+            <Link to="/forgot-password">   <p className="text-sm text-red-600 my-4 cursor-pointer">
               Forgot password?
             </p></Link>
           )}
