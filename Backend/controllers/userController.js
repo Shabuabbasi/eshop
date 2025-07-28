@@ -4,7 +4,71 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import sendEmail from '../utils/sendEmail.js';
 import dotenv from 'dotenv';
+import { OAuth2Client } from 'google-auth-library';
 dotenv.config();
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+export const googleLogin = async (req, res) => {
+  const { token,role } = req.body;
+
+  try {
+    // 1. Verify token with Google
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, picture } = payload;
+    console.log(payload)
+    // 2. Check if user already exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // 3. Create new user (with googleAccount: true)
+      user = await User.create({
+        name,
+        email,
+        password: null, // No password for Google users
+        role: role || 'Customer', // Or allow role from frontend later
+        isVerified: true, // Skip email verification
+        googleAccount: true,
+        picture,
+      });
+    }
+
+    // 4. Generate JWT
+    const authToken = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+      expiresIn: '7d',
+    });
+
+    // 5. Set cookie
+    res.cookie('token', authToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    // 6. Return success
+    res.status(200).json({
+      success: true,
+      message: 'Google login successful',
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        picture: user.picture,
+      },
+    });
+  } catch (err) {
+    console.error('Google Login Error:', err);
+    res.status(401).json({ success: false, message: 'Invalid Google Token' });
+  }
+};
+
 
 const JWT_SECRET = process.env.JWT_SECRET;
 

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
-import { Link } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { Link, useNavigate } from "react-router-dom";
+import { GoogleLogin } from '@react-oauth/google';
+import axios from "axios";
+import { ToastContainer,toast } from "react-toastify";
 
-
-
+const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 const AuthForm = ({
-  mode, // "Login" or "Signup"
+  mode,
   onSubmit,
   isLoading,
   setName,
@@ -22,7 +23,10 @@ const AuthForm = ({
   password,
   alternateLinkText,
   alternateLinkAction,
+  setUser
 }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <motion.div
@@ -35,6 +39,59 @@ const AuthForm = ({
         </h2>
 
         <form onSubmit={onSubmit}>
+          <div className="mt-6">
+            <div className="flex items-center justify-center gap-4">
+              <div className="w-full">
+                <GoogleLogin
+                  onSuccess={async (credentialResponse) => {
+                    try {
+                      const { credential } = credentialResponse;
+                      if (!role) {
+                        toast.error("Please select a role before using Google Signup.");
+                        navigate("/signup")
+                        return;
+                      }
+                      const { data } = await axios.post(
+                        `${backendUrl}/api/users/auth/google`,
+                        { token: credential,role },
+                        {
+                          headers: { 'Content-Type': 'application/json' },
+                          withCredentials: true,
+                        }
+                      );
+
+                      if (data?.user) {
+                        setUser(data.user);
+                        navigate("/");
+                      } else {
+                        console.error("No user returned from Google auth");
+                      }
+                    } catch (err) {
+                      console.error("Google login failed:", err);
+                    }
+                  }}
+
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                  theme="filled_black"
+                  size="large"
+                  shape="pill"
+                  width="auto"
+                />
+              </div>
+            </div>
+
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-2 text-gray-500">or continue with email</span>
+              </div>
+            </div>
+          </div>
+
           {mode === "Signup" && (
             <div className="border border-gray-300 px-6 py-3 flex items-center gap-3 rounded-full">
               <img src={assets.profile_icon} alt="Name" className="w-5 h-5" />
@@ -107,30 +164,9 @@ const AuthForm = ({
               </div>
 
               {/* Google Login - OUTSIDE the map */}
-              <div className="mt-6 ">
-                <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID" className="bg-blue-600 w-full text-white py-3 rounded-full font-medium ">
-                  <GoogleLogin
-                    onSuccess={credentialResponse => {
-                      fetch('http://localhost:5000/auth/google', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ token: credentialResponse.credential }),
-                      })
-                        .then(res => res.json())
-                        .then(data => {
-                          console.log(data); // Save token to localStorage or context
-                        });
-                    }}
-                    onError={() => {
-                      console.log('Login Failed');
-                    }}
-                  />
-                </GoogleOAuthProvider>
-              </div>
+
             </div>
           )}
-
-
 
 
           {mode === "Login" && (

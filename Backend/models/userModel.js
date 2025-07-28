@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    // ⬅️ Only required if not a Google user
+    required: function () {
+      return !this.googleAccount;
+    },
   },
   role: {
     type: String,
@@ -28,14 +31,20 @@ const userSchema = new mongoose.Schema({
   verifyToken: String,
   verifyTokenExpiry: Date,
   resetPasswordToken: String,
-resetPasswordExpires: Date,
+  resetPasswordExpires: Date,
 
+  // ✅ New fields for Google Auth support
+  googleAccount: {
+    type: Boolean,
+    default: false,
+  },
+  picture: {
+    type: String, 
+  },
 });
 
-
-// Hash password before saving
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+  if (!this.isModified('password') || this.googleAccount) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../Components/AuthForm";
 import axios from "axios";
@@ -6,13 +6,19 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 
-const LoginPage = ({ setToken, setUser }) => {
+const LoginPage = ({ setToken, setUser,user }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
+    useEffect(() => {
+    if (user) {
+      toast.info("You are now signed in.");
+      navigate("/");
+    }
+  }, [user, navigate]);
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -42,6 +48,7 @@ const LoginPage = ({ setToken, setUser }) => {
     <AuthForm
       mode="Login"
       onSubmit={handleLogin}
+      setUser={setUser}
       isLoading={isLoading}
       setEmail={setEmail}
       setPassword={setPassword}

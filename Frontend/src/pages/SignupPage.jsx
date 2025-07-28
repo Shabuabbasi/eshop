@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../Components/AuthForm";
 import axios from "axios";
@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 
-const SignupPage = ({ setToken, setUser }) => {
+const SignupPage = ({ setToken, setUser,user }) => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -15,6 +15,13 @@ const SignupPage = ({ setToken, setUser }) => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+
+        useEffect(() => {
+        if (user) {
+          toast.info("You are already signed in.");
+          navigate("/");
+        }
+      }, [user, navigate]);
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -62,6 +69,7 @@ const SignupPage = ({ setToken, setUser }) => {
             mode="Signup"
             onSubmit={handleSignup}
             isLoading={isLoading}
+            setUser={setUser}
             setName={setName}
             setEmail={setEmail}
             setPassword={setPassword}

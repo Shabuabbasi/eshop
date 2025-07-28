@@ -4,11 +4,13 @@ import { useNavigate } from 'react-router-dom';
 const Profile = ({ user }) => {
   const navigate = useNavigate();
   const [isSeller, setIsSeller] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     price: '',
-    category: '',
     stock: '',
     image: null,
   });
@@ -18,6 +20,20 @@ const Profile = ({ user }) => {
     if (user.role === 'Seller') setIsSeller(true);
   }, [user, navigate]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories'); // Adjust endpoint if needed
+        const data = await res.json();
+        setCategories(data.categories);
+      } catch (error) {
+        console.error('Failed to fetch categories', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -26,10 +42,32 @@ const Profile = ({ user }) => {
     }));
   };
 
+  const handleCategorySelect = (e, categoryName) => {
+    if (e.target.checked) {
+      if (selectedCategories.length < 3) {
+        setSelectedCategories((prev) => [...prev, categoryName]);
+      }
+    } else {
+      setSelectedCategories((prev) =>
+        prev.filter((cat) => cat !== categoryName)
+      );
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: Send formData to backend (e.g., using Axios or Fetch)
-    console.log('Submitting item:', formData);
+
+    if (selectedCategories.length < 1 || selectedCategories.length > 3) {
+      alert('Please select between 1 and 3 categories.');
+      return;
+    }
+
+    const productData = {
+      ...formData,
+      categories: selectedCategories,
+    };
+
+    console.log('Submitting item:', productData);
     alert('Item submitted successfully!');
   };
 
@@ -138,16 +176,29 @@ const Profile = ({ user }) => {
                 </div>
               </div>
 
+              {/* Category Checkbox Section */}
               <div>
-                <label className="block font-semibold mb-1">Category</label>
-                <input
-                  type="text"
-                  name="category"
-                  required
-                  value={formData.category}
-                  onChange={handleChange}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                />
+                <label className="block font-semibold mb-2">Select up to 3 Categories</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {categories.map((cat) => (
+                    <label key={cat._id} className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        value={cat.name}
+                        checked={selectedCategories.includes(cat.name)}
+                        onChange={(e) => handleCategorySelect(e, cat.name)}
+                        disabled={
+                          !selectedCategories.includes(cat.name) &&
+                          selectedCategories.length >= 3
+                        }
+                      />
+                      {cat.name}
+                    </label>
+                  ))}
+                </div>
+                {selectedCategories.length === 0 && (
+                  <p className="text-red-500 text-sm mt-1">Select at least 1 category.</p>
+                )}
               </div>
 
               <div>
@@ -175,4 +226,4 @@ const Profile = ({ user }) => {
   );
 };
 
-export default Profile;
+export default Profile

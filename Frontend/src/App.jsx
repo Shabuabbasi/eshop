@@ -39,8 +39,8 @@ useEffect(() => {
       <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignupPage setUser={setUser} />} />
-        <Route path="/login" element={<LoginPage setUser={setUser} />} />
+        <Route path="/signup" element={<SignupPage setUser={setUser} user={user} />} />
+        <Route path="/login" element={<LoginPage setUser={setUser} user={user} />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile user={user} />} />
