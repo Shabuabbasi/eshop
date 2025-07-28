@@ -35,16 +35,16 @@ import Notebooks from "../Images/exploreImages/noteBooks.jpg"
 import Pens from "../Images/exploreImages/pens.jpg" 
 
 
-const categories = [
-  {
-    title: 'Top Fashion Picks',
-    items: [
-      { title: 'Bags', image: Bags, link: '/category/fashion/bags' },
-      { title: 'Jackets', image: Jackets, link: '/category/fashion/jackets' },
-      { title: 'Shoes', image: Shoes, link: '/category/fashion/shoes' },
-      { title: 'Watches', image: rolex, link: '/category/fashion/watches' },
-    ],
-  },
+ export const categories = [
+  // {
+  //   title: 'Top Fashion Picks',
+  //   items: [
+  //     { title: 'Bags', image: Bags, link: '/category/fashion/bags' },
+  //     { title: 'Jackets', image: Jackets, link: '/category/fashion/jackets' },
+  //     { title: 'Shoes', image: Shoes, link: '/category/fashion/shoes' },
+  //     { title: 'Watches', image: rolex, link: '/category/fashion/watches' },
+  //   ],
+  // },
   {
     title: 'Trending in Gaming',
     items: [
@@ -54,24 +54,24 @@ const categories = [
       { title: 'Controllers', image: Controllers, link: '/category/gaming/controllers' },
     ],
   },
-  {
-    title: 'Smart Gadgets',
-    items: [
-      { title: 'Smartphones', image: Phones, link: '/category/tech/phones' },
-      { title: 'Tablets', image: Tablets, link: '/category/tech/tablets' },
-      { title: 'Smartwatches', image: Watches, link: '/category/tech/watches' },
-      { title: 'Laptops', image: Laptops, link: '/category/tech/laptops' },
-    ],
-  },
-  {
-    title: 'Fitness & Sports Gear',
-    items: [
-      { title: 'Dumbbells', image: Dumbbells, link: '/category/sports/dumbbells' },
-      { title: 'Running Shoes', image: RunningShoes, link: '/category/sports/shoes' },
-      { title: 'Yoga Mats', image: YogaMats, link: '/category/sports/yoga' },
-      { title: 'Resistance Bands', image: ResistanceBands, link: '/category/sports/bands' },
-    ],
-  },
+  // {
+  //   title: 'Smart Gadgets',
+  //   items: [
+  //     { title: 'Smartphones', image: Phones, link: '/category/tech/phones' },
+  //     { title: 'Tablets', image: Tablets, link: '/category/tech/tablets' },
+  //     { title: 'Smartwatches', image: Watches, link: '/category/tech/watches' },
+  //     { title: 'Laptops', image: Laptops, link: '/category/tech/laptops' },
+  //   ],
+  // },
+  // {
+  //   title: 'Fitness & Sports Gear',
+  //   items: [
+  //     { title: 'Dumbbells', image: Dumbbells, link: '/category/sports/dumbbells' },
+  //     { title: 'Running Shoes', image: RunningShoes, link: '/category/sports/shoes' },
+  //     { title: 'Yoga Mats', image: YogaMats, link: '/category/sports/yoga' },
+  //     { title: 'Resistance Bands', image: ResistanceBands, link: '/category/sports/bands' },
+  //   ],
+  // },
   {
     title: 'Toys & Fun',
     items: [
@@ -99,6 +99,7 @@ const categories = [
       { title: 'Hair Tools', image: hairTools, link: '/category/beauty/tools' },
     ],
   },
+
   {
     title: 'Office Essentials',
     items: [
