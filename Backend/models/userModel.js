@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // ⬅️ Only required if not a Google user
+    //  Only required if not a Google user
     required: function () {
       return !this.googleAccount;
     },
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
   resetPasswordToken: String,
   resetPasswordExpires: Date,
 
-  // ✅ New fields for Google Auth support
+  //  fields for Google Auth support
   googleAccount: {
     type: Boolean,
     default: false,
