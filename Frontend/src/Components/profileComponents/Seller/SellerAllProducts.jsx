@@ -26,7 +26,7 @@ const SellerAllProducts = ({ user }) => {
     const confirm = window.confirm("Are you sure you want to delete this product?");
     if (!confirm) return;
 
-    try {console.log(productId)
+    try {
       await axios.delete(`${backendUrl}/products/${productId}`, {
         withCredentials: true,
       });
@@ -39,46 +39,53 @@ const SellerAllProducts = ({ user }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow">
-      <h2 className="text-2xl font-bold mb-4 text-blue-700">All Your Products</h2>
+    <div className="p-6">
+      <h2 className="text-3xl font-bold text-blue-800 mb-6 text-center">Your Product Listings</h2>
 
       {loading ? (
-        <p className="text-gray-500">Loading your products...</p>
+        <p className="text-center text-gray-500">Loading your products...</p>
       ) : products.length === 0 ? (
-        <p className="text-gray-500">No products found.</p>
+        <p className="text-center text-gray-500">No products found.</p>
       ) : (
-        <ul className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products.map((prod) => (
-            <li key={prod._id} className="border p-4 rounded space-y-2">
+            <div
+              key={prod._id}
+              className="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 flex flex-col"
+            >
               {prod.image && (
                 <img
                   src={prod.image}
                   alt={prod.name}
-                  className="h-32 w-32 object-cover rounded"
+                  className="h-48 w-full object-cover rounded-xl mb-3"
                 />
               )}
-              <p className="text-lg font-semibold">{prod.name} - ${prod.price}</p>
-              <p className="text-sm text-gray-700">{prod.description}</p>
-              <p className="text-sm text-gray-600"><b>Stock:</b> {prod.stock}</p>
-              <p className="text-sm text-gray-600"><b>Created:</b> {new Date(prod.createdAt).toLocaleString()}</p>
+              <h3 className="text-xl font-semibold text-gray-800 truncate">{prod.name}</h3>
+              <p className="text-sm text-gray-600 line-clamp-2">{prod.description}</p>
 
-              <div className="flex gap-3 mt-2">
+              <div className="mt-2 text-sm space-y-1 text-gray-700">
+                <p><b>Price:</b> ${prod.price}</p>
+                <p><b>Stock:</b> {prod.stock}</p>
+                <p><b>Created:</b> {new Date(prod.createdAt).toLocaleString()}</p>
+              </div>
+
+              <div className="flex gap-2 mt-auto pt-4">
                 <button
                   onClick={() => navigate(`/dashboard/edit-product/${prod._id}`)}
-                  className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg py-2 text-sm font-medium transition"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(prod._id)}
-                  className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 text-sm"
+                  className="flex-1 bg-red-500 hover:bg-red-600 text-white rounded-lg py-2 text-sm font-medium transition"
                 >
                   Delete
                 </button>
               </div>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );

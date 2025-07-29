@@ -43,6 +43,20 @@ export const getAllProducts = async (req, res) => {
         res.status(500).json({ success: false, message: err.message });
     }
 };
+//Get product by ID
+export const getProductById = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id).populate('seller', 'name');
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+
+        res.status(200).json({ success: true, product });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
 export const getProductsBySeller = async (req, res) => {
     try {
         const { id } = req.params;
@@ -90,7 +104,10 @@ export const updateProduct = async (req, res) => {
         product.description = description || product.description;
         product.price = price || product.price;
         product.stock = stock || product.stock;
-        product.category = category || product.category;
+
+        if (category) {
+            product.category = Array.isArray(category) ? category : [category];
+        }
 
         if (req.file) {
             const imagePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
