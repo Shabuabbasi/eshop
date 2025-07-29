@@ -36,7 +36,7 @@ const ProfileDropdown = ({ user, onLogout, onClose }) => {
       </div>
 
       <div className="px-4 py-3 space-y-1.5 bg-white">
-        <Link to="/profile">   <button className="flex items-center gap-2 w-full p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
+        <Link to="/dashboard">   <button className="flex items-center gap-2 w-full p-2 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
           <User className="w-4 h-4 text-gray-500" />
           View Profile
         </button></Link>

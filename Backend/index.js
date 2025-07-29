@@ -5,9 +5,14 @@ import cors from 'cors';
 import userRoutes from './Routes/userRoutes.js';
 import connectDB from './config/db.js'; 
 import productRoutes from './Routes/productRoutes.js';
+import categoryRoutes from './Routes/categoryRoutes.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // DB Connection
 connectDB();
@@ -23,6 +28,8 @@ app.use(cors({
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/products', productRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Server
 const PORT = process.env.PORT || 5000;

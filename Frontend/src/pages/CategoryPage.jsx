@@ -8,7 +8,7 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -18,6 +18,7 @@ const Products = () => {
           const allCategories = res.data.products.flatMap((p) => p.category);
           const uniqueCategories = [...new Set(allCategories)];
           setCategories(uniqueCategories);
+          console.log("Products fetched:", res.data.products);
         }
       } catch (err) {
         console.error("Failed to fetch products:", err);
@@ -96,11 +97,10 @@ const Products = () => {
               <li>
                 <button
                   onClick={() => setSelectedCategory("all")}
-                  className={`w-full text-left px-4 py-2 rounded-md transition ${
-                    selectedCategory === "all"
+                  className={`w-full text-left px-4 py-2 rounded-md transition ${selectedCategory === "all"
                       ? "bg-blue-600 text-white"
                       : "text-gray-700 hover:bg-gray-100"
-                  }`}
+                    }`}
                 >
                   All
                 </button>
@@ -109,11 +109,10 @@ const Products = () => {
                 <li key={index}>
                   <button
                     onClick={() => setSelectedCategory(cat)}
-                    className={`w-full text-left px-4 py-2 rounded-md transition ${
-                      selectedCategory === cat
+                    className={`w-full text-left px-4 py-2 rounded-md transition ${selectedCategory === cat
                         ? "bg-blue-600 text-white"
                         : "text-gray-700 hover:bg-gray-100"
-                    }`}
+                      }`}
                   >
                     {cat}
                   </button>
@@ -141,11 +140,7 @@ const Products = () => {
                   state={{ product }}
                 >
                   <img
-                    src={
-                      product.image.startsWith("http")
-                        ? product.image
-                        : "https://via.placeholder.com/200"
-                    }
+                    src={`${product.image}`}
                     alt={product.name}
                     className="h-48 w-full object-cover rounded mb-3"
                   />

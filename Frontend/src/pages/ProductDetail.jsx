@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(location.state?.product || null);
   const [loading, setLoading] = useState(!location.state?.product);
   const [error, setError] = useState(null);
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
   // Fetch from backend if no product passed via state
   useEffect(() => {
     if (!product) {
@@ -48,7 +48,7 @@ const ProductDetail = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Image */}
         <img
-          src={product.image}
+          src={`${product.image}`}
           alt={product.name}
           className="w-full h-auto object-cover rounded-lg shadow"
         />
