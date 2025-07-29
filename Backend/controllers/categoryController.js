@@ -1,4 +1,49 @@
 
 export const getCategories = (req, res) => {
-        return res.status(200).json({ success: true, categories: ['Electronics', 'Fashion', 'Books' ] });
+return res.status(200).json({
+  success: true,
+  categories: [
+    'Electronics',
+    'Fashion',
+    'Books',
+    'Home & Kitchen',
+    'Beauty & Personal Care',
+    'Toys & Games',
+    'Sports & Outdoors',
+    'Automotive',
+    'Health & Wellness',
+    'Grocery & Gourmet',
+    'Pet Supplies',
+    'Office Supplies',
+    'Baby Products',
+    'Jewelry',
+    'Footwear',
+    'Watches',
+    'Garden & Outdoors',
+    'Tools & Hardware',
+    'Furniture',
+    'Music & Instruments',
+    'Stationery & Crafts',
+    'Gaming',
+    'Mobile Phones & Accessories',
+    'Cameras & Photography',
+    'Laptops & Computers',
+    'Software & Apps',
+    'Video & Movies',
+    'Art & Collectibles',
+    'Industrial & Scientific',
+    'Lifestyle',
+    'Education & Learning',
+    'Real Estate',
+    'Travel & Experiences',
+    'Fitness Equipment',
+    'Digital Goods',
+    'Subscription Boxes',
+    'Vehicles',
+    'Rentals',
+    'Handmade Products',
+    'Seasonal Items',
+    'Construction Materials'
+  ]
+});
 }

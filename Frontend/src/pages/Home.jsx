@@ -1,12 +1,11 @@
 import React, { lazy, Suspense } from 'react'
-import Navbar from '../Components/Navbar'
-import HeroSection from '../Components/HeroSection'
-import Explore from '../Components/Explore'
+import HeroSection from '../Components/landingPageComponents/HeroSection'
+import Explore from '../Components/landingPageComponents/Explore'
 
-const MoreCategories = lazy(() => import('../Components/moreCategories'))
-const Testinomials = lazy(() => import('../Components/Testinomials'))
-const WhyShopUs = lazy(() => import('../Components/WhyshopUs'))
-const Footer = lazy(() => import('../Components/Footer'))
+const MoreCategories = lazy(() => import('../Components/landingPageComponents/MoreCategories'))
+const Testinomials = lazy(() => import('../Components/landingPageComponents/Testinomials'))
+const WhyShopUs = lazy(() => import('../Components/landingPageComponents/WhyshopUs'))
+const Footer = lazy(() => import('../Components/landingPageComponents/Footer'))
 
 function Home() {
   return (

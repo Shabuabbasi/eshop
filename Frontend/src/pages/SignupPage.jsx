@@ -1,6 +1,6 @@
 import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthForm from "../Components/AuthForm";
+import AuthForm from "../Components/authComponents/AuthForm";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";

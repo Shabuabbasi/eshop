@@ -43,3 +43,63 @@ export const getAllProducts = async (req, res) => {
         res.status(500).json({ success: false, message: err.message });
     }
 };
+export const getProductsBySeller = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const products = await Product.find({ seller: id }).populate('seller', 'name');
+
+        res.status(200).json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+// DELETE product by ID (only seller who owns it)
+export const deleteProduct = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (!product) return res.status(404).json({ message: "Product not found" });
+
+        if (product.seller.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: "Not authorized to delete this product" });
+        }
+
+        await Product.deleteOne({ _id: product._id });
+
+        res.status(200).json({ success: true, message: "Product deleted" });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
+// PUT update product by ID
+export const updateProduct = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+
+        if (!product) return res.status(404).json({ message: "Product not found" });
+
+        if (product.seller.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: "Not authorized to update this product" });
+        }
+
+        const { name, description, price, stock, category } = req.body;
+
+        product.name = name || product.name;
+        product.description = description || product.description;
+        product.price = price || product.price;
+        product.stock = stock || product.stock;
+        product.category = category || product.category;
+
+        if (req.file) {
+            const imagePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+            product.image = imagePath;
+        }
+
+        const updated = await product.save();
+        res.status(200).json({ success: true, product: updated });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};

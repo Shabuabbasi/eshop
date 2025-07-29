@@ -1,6 +1,6 @@
-import User1 from '../Images/Testinomials/user1.jpeg'
-import User2 from '../Images/Testinomials/user2.jpeg'
-import User3 from '../Images/Testinomials/user3.jpeg'
+import User1 from '../../Images/Testinomials/user1.jpeg'
+import User2 from '../../Images/Testinomials/user2.jpeg'
+import User3 from '../../Images/Testinomials/user3.jpeg'
 import { Quote } from 'lucide-react'
 
 const testimonials = [

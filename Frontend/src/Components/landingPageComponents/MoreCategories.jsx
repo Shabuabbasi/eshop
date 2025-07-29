@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
-import kitchen from "../Images/exploreImages/Kitchen.jpg"
-import pets from "../Images/exploreImages/Pets.jpg"
-import library from "../Images/exploreImages/Library.jpg"
+import kitchen from "../../Images/exploreImages/Kitchen.jpg"
+import pets from "../../Images/exploreImages/Pets.jpg"
+import library from "../../Images/exploreImages/Library.jpg"
 
 const categories = [
   {

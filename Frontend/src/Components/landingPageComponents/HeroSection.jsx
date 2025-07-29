@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import Furniture1 from '../Images/Furniture1.jpg'
-import Gaming from '../Images/Gaming.png'
-import SmartTech from '../Images/SmartTech.png'
-import Fashion from '../Images/Fashion.jpg'
-import Toys from '../Images/Toys.jpeg'
-import Sports from '../Images/Sports.jpeg'
+import Furniture1 from '../../Images/Furniture1.jpg'
+import Gaming from '../../Images/Gaming.png'
+import SmartTech from '../../Images/SmartTech.png'
+import Fashion from '../../Images/Fashion.jpg'
+import Toys from '../../Images/Toys.jpeg'
+import Sports from '../../Images/Sports.jpeg'
 
 const slides = [
     {
