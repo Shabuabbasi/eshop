@@ -3,7 +3,7 @@ import React from 'react'
 const CustomerOverview = ({user}) => {
   return (
     <div className="bg-white p-6 rounded-xl shadow">
-      <h2 className="text-2xl font-bold mb-4">Seller Overview</h2>
+      <h2 className="text-2xl font-bold mb-4">Customer Overview</h2>
       <ul className="space-y-2 text-gray-700">
         <li><strong>Name:</strong> {user.name}</li>
         <li><strong>Email:</strong> {user.email}</li>

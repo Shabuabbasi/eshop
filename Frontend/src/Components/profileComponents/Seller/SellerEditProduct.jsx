@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 const SellerEditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -17,8 +17,8 @@ const SellerEditProduct = () => {
 
   const [allCategories, setAllCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [image, setImage] = useState(null); // new image
-  const [previewUrl, setPreviewUrl] = useState(""); // preview of current or uploaded image
+  const [image, setImage] = useState(null); 
+  const [previewUrl, setPreviewUrl] = useState(""); 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -102,12 +102,11 @@ const SellerEditProduct = () => {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true,
       });
-
-      alert("Product updated successfully!");
+      toast.success("Product updated successfully!")
       navigate("/dashboard/all-products");
     } catch (err) {
       console.error("Update failed", err);
-      alert("Update failed. Please try again.");
+      toast.error("Update failed. Please try again.");
     } finally {
       setLoading(false);
     }

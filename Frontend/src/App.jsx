@@ -12,6 +12,7 @@ import VerifyEmailPage from "./pages/VerifyEmailPage";
 import ProductDetail from "./pages/ProductDetail";
 import CategoryPage from "./pages/CategoryPage";
 import Profile from "./pages/Profile";
+import Contact from "./pages/Contact";
 
 // Components
 import Navbar from "./Components/LandingPageComponents/Navbar";
@@ -53,7 +54,7 @@ function App() {
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/product" element={<CategoryPage />} />
         <Route path="/product/:title" element={<ProductDetail />} />
-
+        <Route path="/contact" element={<Contact/>} />
         {/* Dashboard layout with nested routes handled in Profile */}
         <Route path="/dashboard/*" element={<Profile user={user} />} />
       </Routes>

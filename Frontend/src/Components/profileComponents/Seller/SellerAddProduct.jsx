@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-
+import { toast } from "react-toastify";
 const SellerAddProduct = () => {
   const [formData, setFormData] = useState({
     title: '',
@@ -96,13 +96,13 @@ const SellerAddProduct = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      alert("Product added successfully!");
+      toast.success("Product added successfully!");
       setFormData({ title: '', description: '', price: '', stock: '', image: null });
       setSelectedCategories([]);
       setImagePreview(null);
     } catch (err) {
       console.error("Product submission failed", err);
-      alert("Error adding product.");
+      toast.error("Error adding product.");
     }
   };
 
