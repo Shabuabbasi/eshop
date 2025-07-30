@@ -18,6 +18,7 @@ import Contact from "./pages/Contact";
 import Navbar from "./Components/LandingPageComponents/Navbar";
 import ForgotPassword from "./Components/authComponents/ForgetPassword";
 import ResetPassword from "./Components/authComponents/ResetPassword";
+import CartPage from "./pages/Cartpage";
 
 const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
@@ -55,6 +56,7 @@ function App() {
         <Route path="/product" element={<CategoryPage />} />
         <Route path="/product/:title" element={<ProductDetail />} />
         <Route path="/contact" element={<Contact/>} />
+        <Route path="/cart" element={<CartPage/>} />
         {/* Dashboard layout with nested routes handled in Profile */}
         <Route path="/dashboard/*" element={<Profile user={user} />} />
       </Routes>
