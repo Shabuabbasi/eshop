@@ -38,7 +38,7 @@ useEffect(() => {
   };
 
   fetchData();
-}, [backendUrl, user]); // ✅ include user in deps
+}, [backendUrl, user]);
 
 
   const handleCategoryChange = (category) => {

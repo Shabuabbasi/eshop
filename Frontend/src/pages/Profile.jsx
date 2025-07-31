@@ -17,6 +17,7 @@ import CustomerWishlist from "../Components/profileComponents/Customer/CustomerW
 import CourierDeliveries from "../Components/profileComponents/Courier/CourierDeliveries";
 import CourierOverview from "../Components/profileComponents/Courier/CourierOverview";
 import SellerEditProduct from "../Components/profileComponents/Seller/SellerEditProduct";
+import CCart from "../Components/profileComponents/Customer/CustomerCart";
 
 const Profile = ({ user }) => {
   if (!user) return <Navigate to="/login" />;
@@ -38,6 +39,8 @@ const Profile = ({ user }) => {
             <Route path="overview" element={<CustomerOverview user={user} />} />
             <Route path="orders" element={<CustomerOrders />} />
             <Route path="wishlist" element={<CustomerWishlist />} />
+            <Route path="cart" element={<CCart />} />
+
           </>
         )}
         {user.role === "Courier" && (

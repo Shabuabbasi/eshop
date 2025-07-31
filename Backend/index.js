@@ -8,6 +8,8 @@ import productRoutes from './Routes/productRoutes.js';
 import categoryRoutes from './Routes/categoryRoutes.js'
 import orderRoutes from './Routes/orderRoutes.js'
 import sellerRoutes from './Routes/sellerRoutes.js'
+import wishlistRoutes from './Routes/wishlistRoutes.js'
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -34,6 +36,8 @@ app.use('/categories', categoryRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/orders', orderRoutes);
 app.use('/api/seller', sellerRoutes)
+app.use("/api/wishlist", wishlistRoutes);
+
 
 // Server
 const PORT = process.env.PORT || 5000;

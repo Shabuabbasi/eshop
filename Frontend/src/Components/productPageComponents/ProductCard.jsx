@@ -1,18 +1,59 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { FiHeart } from "react-icons/fi";
+import { AiFillHeart } from "react-icons/ai";
 import Cart from "../../Images/exploreImages/cart.svg";
 import StarRating from "./StarRating";
 import { useCart } from "../cartComponents/CartContext";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart(); // ✅ Use cart context
+  const { addToCart } = useCart();
   const randomRating = (Math.random() * 2 + 3).toFixed(1);
+  const [wishlisted, setWishlisted] = useState(false);
+
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      try {
+        const res = await axios.get(`${backendUrl}/api/wishlist/get`, {
+          withCredentials: true,
+        });
+        const wishlist = res.data.wishlist || [];
+        const isInWishlist = wishlist.some((item) => item._id === product._id);
+        setWishlisted(isInWishlist);
+      } catch (error) {
+        console.error("Wishlist check failed", error);
+      }
+    };
+
+    checkWishlistStatus();
+  }, [product._id]);
 
   const handleAddToCart = () => {
     addToCart(product);
-    toast.info("Product Added")
+    toast.info("Product added to cart");
   };
+
+  const handleToggleWishlist = async () => {
+    try {
+      const endpoint = `${backendUrl}/api/wishlist/${wishlisted ? "remove" : "add"}`;
+      await axios.post(
+        endpoint,
+        { productId: product._id },
+        { withCredentials: true }
+      );
+
+      setWishlisted(!wishlisted);
+      toast.success(wishlisted ? "Removed from wishlist" : "Added to wishlist");
+    } catch (error) {
+      toast.error("Wishlist update failed");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow hover:shadow-lg transition-all duration-300 p-4 relative group">
       <Link
@@ -49,8 +90,14 @@ const ProductCard = ({ product }) => {
         <span className="font-bold text-lg text-blue-700">Rs {product.price}</span>
 
         <div className="flex items-center space-x-2">
-          <button className="p-2 rounded-full text-gray-500 hover:text-red-500 transition">
-            <FiHeart size={18} />
+          <button
+            onClick={handleToggleWishlist}
+            className={`p-2 rounded-full transition ${
+              wishlisted ? "text-red-600" : "text-gray-500 hover:text-red-500"
+            }`}
+            title={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            {wishlisted ? <AiFillHeart size={18} /> : <FiHeart size={18} />}
           </button>
           <button
             onClick={handleAddToCart}
