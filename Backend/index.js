@@ -6,6 +6,8 @@ import userRoutes from './Routes/userRoutes.js';
 import connectDB from './config/db.js'; 
 import productRoutes from './Routes/productRoutes.js';
 import categoryRoutes from './Routes/categoryRoutes.js'
+import orderRoutes from './Routes/orderRoutes.js'
+import sellerRoutes from './Routes/sellerRoutes.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -30,6 +32,8 @@ app.use('/api/users', userRoutes);
 app.use('/products', productRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/orders', orderRoutes);
+app.use('/api/seller', sellerRoutes)
 
 // Server
 const PORT = process.env.PORT || 5000;

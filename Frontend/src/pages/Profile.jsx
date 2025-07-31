@@ -6,6 +6,7 @@ import DashboardLayout from "../Components/profileComponents/DashboardLayout";
 import SellerAllProducts from "../Components/profileComponents/Seller/SellerAllProducts";
 import SellerOverview from "../Components/profileComponents/Seller/SellerOverview";
 import SellerAddProduct from "../Components/profileComponents/Seller/SellerAddProduct";
+import SellerOrdersReceived from "../Components/profileComponents/Seller/SellerOrdersReceived";
 
 // Customer components
 import CustomerOverview from "../Components/profileComponents/Customer/CustomerOverview";
@@ -29,7 +30,7 @@ const Profile = ({ user }) => {
             <Route path="add-product" element={<SellerAddProduct />} />
             <Route path="all-products" element={<SellerAllProducts user={user} />} />
             <Route path="edit-product/:id" element={<SellerEditProduct user={user} />} /> 
-
+            <Route path="orders-received" element={<SellerOrdersReceived />} />
           </>
         )}
         {user.role === "Customer" && (
