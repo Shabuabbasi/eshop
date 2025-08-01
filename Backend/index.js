@@ -9,6 +9,7 @@ import categoryRoutes from './Routes/categoryRoutes.js'
 import orderRoutes from './Routes/orderRoutes.js'
 import sellerRoutes from './Routes/sellerRoutes.js'
 import wishlistRoutes from './Routes/wishlistRoutes.js'
+import adminRoutes from './Routes/adminRoutes.js'
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -37,6 +38,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/orders', orderRoutes);
 app.use('/api/seller', sellerRoutes)
 app.use("/api/wishlist", wishlistRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 // Server

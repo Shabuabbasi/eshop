@@ -9,11 +9,62 @@ dotenv.config();
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-export const googleLogin = async (req, res) => {
-  const { token,role } = req.body;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+const allowedAdminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
+const allowedRoles = ['Customer', 'Seller', 'Courier'];
+
+// REGISTER USER — updated
+export const registerUser = async (req, res) => {
+  const { name, email, password, role } = req.body;
 
   try {
-    // 1. Verify token with Google
+    if (!name || !email || !password || !role)
+      return res.status(400).json({ success: false, message: 'All fields required' });
+
+    // ❌ Block any Admin registration attempt
+    if (role === 'Admin' || allowedAdminEmails.includes(email)) {
+      return res.status(403).json({ success: false, message: 'Admin registration is not allowed.' });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser)
+      return res.status(400).json({ success: false, message: 'Email already registered' });
+
+    const verifyToken = crypto.randomBytes(32).toString('hex');
+    const verifyTokenExpiry = Date.now() + 30 * 60 * 1000;
+
+    // ✅ Safe role assignment
+    const finalRole = allowedRoles.includes(role) ? role : 'Customer';
+
+    const newUser = await User.create({
+      name,
+      email,
+      password,
+      role: finalRole,
+      verifyToken,
+      verifyTokenExpiry,
+    });
+
+    const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verifyToken}`;
+    await sendEmail(email, "Verify your email", `
+      <h2>Hello ${name},</h2>
+      <p>Please verify your email by clicking below:</p>
+      <a href="${verifyUrl}">Verify Email</a>
+    `);
+
+    res.status(201).json({ success: true, message: 'Check your email to verify.' });
+  } catch (err) {
+    console.error('Register error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// GOOGLE LOGIN — updated
+export const googleLogin = async (req, res) => {
+  const { token } = req.body;
+
+  try {
     const ticket = await googleClient.verifyIdToken({
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
@@ -21,29 +72,41 @@ export const googleLogin = async (req, res) => {
 
     const payload = ticket.getPayload();
     const { email, name, picture } = payload;
-    console.log(payload)
-    // 2. Check if user already exists
+
+    const allowedAdminEmails = process.env.ADMIN_EMAILS?.split(',') || [];
+
     let user = await User.findOne({ email });
 
+    // 🚫 If admin email, block auto-creation
+    if (!user && allowedAdminEmails.includes(email)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin login only allowed for existing users',
+      });
+    }
+
+    // Auto-create only Customer role
     if (!user) {
-      // 3. Create new user (with googleAccount: true)
       user = await User.create({
         name,
         email,
-        password: null, // No password for Google users
-        role: role || 'Customer', // Or allow role from frontend later
-        isVerified: true, // Skip email verification
+        password: null,
+        role: 'Customer',
+        isVerified: true,
         googleAccount: true,
         picture,
       });
     }
 
-    // 4. Generate JWT
+    // ✅ Extra check for admin login — must be whitelisted
+    if (user.role === 'Admin' && !allowedAdminEmails.includes(email)) {
+      return res.status(403).json({ success: false, message: 'Unauthorized admin login' });
+    }
+
     const authToken = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
       expiresIn: '7d',
     });
 
-    // 5. Set cookie
     res.cookie('token', authToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -51,7 +114,6 @@ export const googleLogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    // 6. Return success
     res.status(200).json({
       success: true,
       message: 'Google login successful',
@@ -66,40 +128,6 @@ export const googleLogin = async (req, res) => {
   } catch (err) {
     console.error('Google Login Error:', err);
     res.status(401).json({ success: false, message: 'Invalid Google Token' });
-  }
-};
-
-
-const JWT_SECRET = process.env.JWT_SECRET;
-
-export const registerUser = async (req, res) => {
-  const { name, email, password, role } = req.body;
-  try {
-    if (!name || !email || !password || !role)
-      return res.status(400).json({ success: false, message: 'All fields required' });
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ success: false, message: 'Email already registered' });
-
-    const verifyToken = crypto.randomBytes(32).toString('hex');
-    const verifyTokenExpiry = Date.now() + 30 * 60 * 1000;
-
-    const newUser = await User.create({
-      name, email, password, role, verifyToken, verifyTokenExpiry
-    });
-
-    const verifyUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verifyToken}`;
-    await sendEmail(email, "Verify your email", `
-      <h2>Hello ${name},</h2>
-      <p>Please verify your email by clicking below:</p>
-      <a href="${verifyUrl}">Verify Email</a>
-    `);
-
-    res.status(201).json({ success: true, message: 'Check your email to verify.' });
-  } catch (err) {
-    console.error('Register error:', err);
-    res.status(500).json({ success: false, message: 'Server error' });
   }
 };
 
