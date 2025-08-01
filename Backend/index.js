@@ -10,7 +10,7 @@ import orderRoutes from './Routes/orderRoutes.js'
 import sellerRoutes from './Routes/sellerRoutes.js'
 import wishlistRoutes from './Routes/wishlistRoutes.js'
 import adminRoutes from './Routes/adminRoutes.js'
-
+import searchRoute from './Routes/searchRoute.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -33,6 +33,7 @@ app.use(cors({
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/products', productRoutes);
+app.use("/api/products", searchRoute);
 app.use('/categories', categoryRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/orders', orderRoutes);
