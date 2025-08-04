@@ -32,19 +32,18 @@ import hairTools from "../../Images/exploreImages/hairTools.jpg"
 import Printers from "../../Images/exploreImages/printers.jpg"
 import OfficeChairs from "../../Images/exploreImages/officeChairs.jpg"
 import Notebooks from "../../Images/exploreImages/noteBooks.jpg"
-import Pens from "../../Images/exploreImages/pens.jpg" 
+import Pens from "../../Images/exploreImages/pens.jpg"
 
-
- export const categories = [
-   {
-     title: 'Top Fashion Picks',
-     items: [
-       { title: 'Bags', image: Bags, link: '/category/fashion/bags' },
-       { title: 'Jackets', image: Jackets, link: '/category/fashion/jackets' },
-       { title: 'Shoes', image: Shoes, link: '/category/fashion/shoes' },
-       { title: 'Watches', image: rolex, link: '/category/fashion/watches' },
-     ],
-   },
+export const categories = [
+  {
+    title: 'Top Fashion Picks',
+    items: [
+      { title: 'Bags', image: Bags, link: '/category/fashion/bags' },
+      { title: 'Jackets', image: Jackets, link: '/category/fashion/jackets' },
+      { title: 'Shoes', image: Shoes, link: '/category/fashion/shoes' },
+      { title: 'Watches', image: rolex, link: '/category/fashion/watches' },
+    ],
+  },
   {
     title: 'Trending in Gaming',
     items: [
@@ -54,24 +53,24 @@ import Pens from "../../Images/exploreImages/pens.jpg"
       { title: 'Controllers', image: Controllers, link: '/category/gaming/controllers' },
     ],
   },
-   {
-     title: 'Smart Gadgets',
-     items: [
-       { title: 'Smartphones', image: Phones, link: '/category/tech/phones' },
-       { title: 'Tablets', image: Tablets, link: '/category/tech/tablets' },
-       { title: 'Smartwatches', image: Watches, link: '/category/tech/watches' },
-       { title: 'Laptops', image: Laptops, link: '/category/tech/laptops' },
-     ],
-   },
-   {
-     title: 'Fitness & Sports Gear',
-     items: [
-       { title: 'Dumbbells', image: Dumbbells, link: '/category/sports/dumbbells' },
-       { title: 'Running Shoes', image: RunningShoes, link: '/category/sports/shoes' },
-       { title: 'Yoga Mats', image: YogaMats, link: '/category/sports/yoga' },
-       { title: 'Resistance Bands', image: ResistanceBands, link: '/category/sports/bands' },
-     ],
-   },
+  {
+    title: 'Smart Gadgets',
+    items: [
+      { title: 'Smartphones', image: Phones, link: '/category/tech/phones' },
+      { title: 'Tablets', image: Tablets, link: '/category/tech/tablets' },
+      { title: 'Smartwatches', image: Watches, link: '/category/tech/watches' },
+      { title: 'Laptops', image: Laptops, link: '/category/tech/laptops' },
+    ],
+  },
+  {
+    title: 'Fitness & Sports Gear',
+    items: [
+      { title: 'Dumbbells', image: Dumbbells, link: '/category/sports/dumbbells' },
+      { title: 'Running Shoes', image: RunningShoes, link: '/category/sports/shoes' },
+      { title: 'Yoga Mats', image: YogaMats, link: '/category/sports/yoga' },
+      { title: 'Resistance Bands', image: ResistanceBands, link: '/category/sports/bands' },
+    ],
+  },
   {
     title: 'Toys & Fun',
     items: [
@@ -99,7 +98,6 @@ import Pens from "../../Images/exploreImages/pens.jpg"
       { title: 'Hair Tools', image: hairTools, link: '/category/beauty/tools' },
     ],
   },
-
   {
     title: 'Office Essentials',
     items: [
@@ -121,22 +119,27 @@ const Explore = () => {
           <div key={index}>
             <h3 className="text-xl font-semibold mb-4 text-gray-800">{category.title}</h3>
             <div className="grid grid-cols-2 gap-4">
-              {category.items.map((item, idx) => (
-                <Link
-                  to={item.link}
-                  key={idx}
-                  className="bg-white rounded shadow p-3 hover:shadow-lg transition block"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-32 object-cover rounded"
-                  />
-                  <p className="mt-2 text-sm font-medium text-gray-700 text-center">
-                    {item.title}
-                  </p>
-                </Link>
-              ))}
+              {category.items.map((item, idx) => {
+                const parts = item.link.split('/')
+                const mainCategory = parts[2] 
+
+                return (
+                  <Link
+                    key={idx}
+                    to={`/product?search=${encodeURIComponent(item.title)}&category=${encodeURIComponent(mainCategory)}`}
+                    className="bg-white rounded shadow p-3 hover:shadow-lg transition block"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-32 object-cover rounded"
+                    />
+                    <p className="mt-2 text-sm font-medium text-gray-700 text-center">
+                      {item.title}
+                    </p>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         ))}
