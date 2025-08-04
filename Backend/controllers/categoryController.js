@@ -10,6 +10,7 @@ return res.status(200).json({
     'Beauty & Personal Care',
     'Toys ',
     'Gaming',
+    'Tech',
     'Sports',
     'Outdoors',
     'Automotive',

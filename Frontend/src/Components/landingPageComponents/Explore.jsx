@@ -74,37 +74,37 @@ export const categories = [
   {
     title: 'Toys & Fun',
     items: [
-      { title: 'Board Games', image: BoardGames, link: '/category/toys/boardgames' },
-      { title: 'Remote Cars', image: RemoteCars, link: '/category/toys/cars' },
-      { title: 'Lego Sets', image: LegoSets, link: '/category/toys/lego' },
-      { title: 'Action Figures', image: ActionFigures, link: '/category/toys/figures' },
+      { title: 'Board Games', image: BoardGames, link: '/category/toys+/boardgames' },
+      { title: 'Remote Cars', image: RemoteCars, link: '/category/toys+/cars' },
+      { title: 'Lego Sets', image: LegoSets, link: '/category/toys+/lego' },
+      { title: 'Action Figures', image: ActionFigures, link: '/category/toys+/figures' },
     ],
   },
   {
     title: 'Home & Furniture',
     items: [
-      { title: 'Sofas', image: Sofas, link: '/category/home/sofas' },
-      { title: 'Chairs', image: Chairs, link: '/category/home/chairs' },
-      { title: 'Tables', image: Tables, link: '/category/home/tables' },
-      { title: 'Lamps', image: Lamps, link: '/category/home/lamps' },
+      { title: 'Sofas', image: Sofas, link: '/category/home & kitchen/sofas' },
+      { title: 'Chairs', image: Chairs, link: '/category/home & kitchen/chairs' },
+      { title: 'Tables', image: Tables, link: '/category/home & kitchen/tables' },
+      { title: 'Lamps', image: Lamps, link: '/category/home & kitchen/lamps' },
     ],
   },
   {
     title: 'Beauty & Care',
     items: [
-      { title: 'Skincare', image: skinCare, link: '/category/beauty/skincare' },
-      { title: 'Makeup Kits', image: makeup, link: '/category/beauty/makeup' },
-      { title: 'Perfumes', image: perfumes, link: '/category/beauty/perfumes' },
-      { title: 'Hair Tools', image: hairTools, link: '/category/beauty/tools' },
+      { title: 'Skincare', image: skinCare, link: '/category/Beauty & Personal Care/skincare' },
+      { title: 'Makeup Kits', image: makeup, link: '/category/Beauty & Personal Care/makeup' },
+      { title: 'Perfumes', image: perfumes, link: '/category/Beauty & Personal Care/perfumes' },
+      { title: 'Hair Tools', image: hairTools, link: '/category/Beauty & Personal Care/tools' },
     ],
   },
   {
     title: 'Office Essentials',
     items: [
-      { title: 'Printers', image: Printers, link: '/category/office/organizers' },
-      { title: 'Office Chairs', image: OfficeChairs, link: '/category/office/chairs' },
-      { title: 'Notebooks', image: Notebooks, link: '/category/office/notebooks' },
-      { title: 'Pens & Tools', image: Pens, link: '/category/office/pens' },
+      { title: 'Printers', image: Printers, link: '/category/Office Supplies/organizers' },
+      { title: 'Office Chairs', image: OfficeChairs, link: '/category/Office Supplies/chairs' },
+      { title: 'Notebooks', image: Notebooks, link: '/category/Office Supplies/notebooks' },
+      { title: 'Pens & Tools', image: Pens, link: '/category/Office Supplies/pens' },
     ],
   },
 ]
