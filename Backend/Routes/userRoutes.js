@@ -7,9 +7,10 @@ import {
   verifyEmail,
   forgotPassword,
   resetPassword,
-  googleLogin
+  googleLogin,
+  updateUserInfo
 } from '../controllers/userController.js';
-
+import {protect} from '../middlewares/authMiddleware.js'
 
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.get('/logout', logoutUser);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
 router.post('/auth/google', googleLogin); 
+router.put('/update-info', protect, updateUserInfo);
 
 export default router;

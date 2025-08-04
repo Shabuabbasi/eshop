@@ -26,7 +26,7 @@ return res.status(200).json({
     'Furniture',
     'Music & Instruments',
     'Stationery & Crafts',
-    'Gaming',
+    'School Accessories',
     'Mobile Phones & Accessories',
     'Cameras & Photography',
     'Laptops & Computers',

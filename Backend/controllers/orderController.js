@@ -80,3 +80,50 @@ export const cancelOrder = async (req, res) => {
   }
 };
  
+export const getCourierOrders = async (req, res) => {
+  try {
+    const { courierId } = req.params;
+
+    const orders = await Order.find({ courier: courierId })
+      .populate('user', 'name email')
+      .populate('items.product', 'name price image')
+      .sort({ createdAt: -1 });
+
+    res.json({ success: true, orders });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+
+export const updateOrderStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    order.status = status;
+    await order.save();
+
+    res.json({ success: true, message: 'Status updated', order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+export const assignCourier = async (req, res) => {
+  try {
+    const { courierId } = req.body;
+
+    const order = await Order.findById(req.params.id);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    order.courier = courierId;
+    await order.save();
+
+    res.json({ success: true, message: 'Courier assigned', order });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};

@@ -262,3 +262,45 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
+
+
+export const updateUserInfo = async (req, res) => {
+  try {
+    const userId = req.user._id; 
+
+    const {
+      name,
+      dob,
+      gender,
+      address,
+      contactNumber,
+      nationalID,
+    } = req.body;
+
+    if (nationalID && nationalID.length !== 13) {
+      return res.status(400).json({ success: false, message: 'National ID must be 13 characters long.' });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        name,
+        dob,
+        gender,
+        address,
+        contactNumber,
+        nationalID,
+      },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.error('Error updating user info:', err.message);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
