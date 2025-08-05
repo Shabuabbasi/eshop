@@ -78,7 +78,7 @@ const CustomerOrders = () => {
                 <div className="flex justify-between items-center mt-4">
                   <p className="text-gray-700 font-medium">Total: Rs {total}</p>
 
-                  {['Pending', 'Confirmed'].includes(order.status) && (
+                  {['Pending'].includes(order.status) && (
                     <button
                       onClick={() => handleCancel(order._id)}
                       className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm rounded-lg transition"

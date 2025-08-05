@@ -26,6 +26,7 @@ import AdminOverview from "../Components/profileComponents/Admin/AdminOverview";
 import AdminUsers from "../Components/profileComponents/Admin/AdminUsers";
 import AdminProducts from "../Components/profileComponents/Admin/AdminProducts";
 import AdminOrders from "../Components/profileComponents/Admin/AdminOrders";
+import AdminAssignCouriers from "../Components/profileComponents/Admin/AdminAssignCouriers";
 
 const Profile = ({ user }) => {
   if (!user) return <Navigate to="/login" />;
@@ -66,6 +67,7 @@ const Profile = ({ user }) => {
         {user.role === "Admin" && (<>
           <Route path="overview" element={<AdminOverview />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="assign" element={<AdminAssignCouriers/>} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="settings" element={<SettingsPage user={user} />} />

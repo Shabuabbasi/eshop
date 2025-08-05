@@ -1,5 +1,6 @@
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
 
 export const confirmOrder = async (req, res) => {
   try {
@@ -27,7 +28,7 @@ export const confirmOrder = async (req, res) => {
     const order = await Order.create({
       user: userId,
       items: items.map(i => ({ product: i.productId, quantity: i.quantity })),
-      status: 'Confirmed',
+      status: 'Pending',
       estimatedDelivery: new Date(Date.now() + Math.floor(Math.random() * 4 + 2) * 24 * 60 * 60 * 1000) // 2–5 days
     });
 
@@ -79,7 +80,7 @@ export const cancelOrder = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
- 
+
 export const getCourierOrders = async (req, res) => {
   try {
     const { courierId } = req.params;
@@ -111,7 +112,6 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
 export const assignCourier = async (req, res) => {
   try {
     const { courierId } = req.body;
@@ -119,11 +119,21 @@ export const assignCourier = async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
+    const courier = await User.findById(courierId);
+    if (!courier || courier.role !== 'Courier') {
+      return res.status(400).json({ message: 'Invalid courier ID or user is not a courier' });
+    }
+
+    // Assign courier and update status
     order.courier = courierId;
+    order.status = 'Confirmed'; 
+
     await order.save();
 
-    res.json({ success: true, message: 'Courier assigned', order });
+    res.json({ success: true, message: 'Courier assigned and order confirmed', order });
   } catch (err) {
+    console.error("Assign courier error:", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
+

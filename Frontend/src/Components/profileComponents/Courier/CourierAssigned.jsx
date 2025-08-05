@@ -3,11 +3,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const CourierAssigned = () => {
+  const backendUrl = import.meta.env.VITE_API_BASE_URL;
   const [orders, setOrders] = useState([]);
 
   const fetchAssignedOrders = async () => {
     try {
-      const { data } = await axios.get('/api/orders/courier/assigned', {
+      const { data } = await axios.get(`${backendUrl}/api/courier/assigned-orders`, {
         withCredentials: true
       });
       if (data.success) {
@@ -21,7 +22,7 @@ const CourierAssigned = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      const { data } = await axios.put(`/api/orders/${orderId}/status`, { status: newStatus }, {
+      const { data } = await axios.put(`${backendUrl}/api/orders/${orderId}/status`, { status: newStatus }, {
         withCredentials: true
       });
       toast.success(data.message);

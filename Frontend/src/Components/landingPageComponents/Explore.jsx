@@ -74,10 +74,10 @@ export const categories = [
   {
     title: 'Toys & Fun',
     items: [
-      { title: 'Board Games', image: BoardGames, link: '/category/toys+/boardgames' },
-      { title: 'Remote Cars', image: RemoteCars, link: '/category/toys+/cars' },
-      { title: 'Lego Sets', image: LegoSets, link: '/category/toys+/lego' },
-      { title: 'Action Figures', image: ActionFigures, link: '/category/toys+/figures' },
+      { title: 'Board Games', image: BoardGames, link: '/category/toys/boardgames' },
+      { title: 'Remote Cars', image: RemoteCars, link: '/category/toys/cars' },
+      { title: 'Lego Sets', image: LegoSets, link: '/category/toys/lego' },
+      { title: 'Action Figures', image: ActionFigures, link: '/category/toys/figures' },
     ],
   },
   {
