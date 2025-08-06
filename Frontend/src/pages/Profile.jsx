@@ -62,7 +62,7 @@ const Profile = ({ user }) => {
           <>
             <Route path="overview" element={<Overview user={user} />} />
             <Route path="assigned" element={<CourierAssigned />} />
-            <Route path="history" element={<CourierHistory />} />
+            <Route path="history" element={<CourierHistory user={user} />} />
             <Route path="settings" element={<SettingsPage user={user} />} />
 
           </>
