@@ -1,6 +1,7 @@
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
 import User from '../models/userModel.js';
+import Review from '../models/reviewModel.js';
 
 export const confirmOrder = async (req, res) => {
   try {
@@ -38,17 +39,45 @@ export const confirmOrder = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
 export const getUserOrders = async (req, res) => {
   try {
+    // Step 1: Fetch all orders by the user
     const orders = await Order.find({ user: req.user._id })
-      .populate('items.product', 'name price image') // Get product info
+      .populate('items.product', 'name price image')
       .sort({ createdAt: -1 });
 
-    res.json({ success: true, orders });
+    // Step 2: Fetch all reviews by this user
+    const reviews = await Review.find({ user: req.user._id });
+
+    // Step 3: Add a "reviewed" flag to each product in each order
+    const reviewedMap = {};
+    reviews.forEach((review) => {
+      reviewedMap[`${review.order}_${review.product}`] = true;
+    });
+
+    const ordersWithReviewFlags = orders.map((order) => {
+      const updatedItems = order.items.map((item) => {
+        const hasReviewed = reviewedMap[`${order._id}_${item.product._id}`] || false;
+        return {
+          ...item.toObject(),
+          reviewed: hasReviewed,
+        };
+      });
+
+      return {
+        ...order.toObject(),
+        items: updatedItems,
+      };
+    });
+
+    res.json({ success: true, orders: ordersWithReviewFlags });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+
 //Cancel Order
 export const cancelOrder = async (req, res) => {
   try {
@@ -59,7 +88,13 @@ export const cancelOrder = async (req, res) => {
     if (order.status === "Cancelled") {
       return res.status(400).json({ message: "Order is already cancelled" });
     }
+    if (order.status === "Shipped") {
+      return res.status(401).json({ message: "Order has already been shipped and cannot be cancelled." });
+    }
 
+    if (order.status === "Delivered") {
+      return res.status(401).json({ message: "Order has already been delivered. Contact support for returns." });
+    }
     // Restore stock
     if (["Pending", "Confirmed"].includes(order.status)) {
       for (const item of order.items) {
@@ -126,7 +161,7 @@ export const assignCourier = async (req, res) => {
 
     // Assign courier and update status
     order.courier = courierId;
-    order.status = 'Confirmed'; 
+    order.status = 'Confirmed';
 
     await order.save();
 

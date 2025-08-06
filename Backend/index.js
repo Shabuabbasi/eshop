@@ -12,6 +12,7 @@ import wishlistRoutes from './Routes/wishlistRoutes.js'
 import adminRoutes from './Routes/adminRoutes.js'
 import searchRoute from './Routes/searchRoute.js'
 import courierRoutes from './Routes/courierRoutes.js'
+import reviewRoutes from './Routes/reviewRoutes.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -42,6 +43,7 @@ app.use('/api/seller', sellerRoutes)
 app.use("/api/wishlist", wishlistRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/courier',courierRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Server
 const PORT = process.env.PORT || 5000;
