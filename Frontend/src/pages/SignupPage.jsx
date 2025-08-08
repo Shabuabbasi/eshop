@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 
-const SignupPage = ({ setToken, setUser,user }) => {
+const SignupPage = ({ setUser,user }) => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import ProfileDropdown from "./ProfileDropdown";
 import axios from "axios";
+import { MessageCircle } from "lucide-react";
 
 
 const backendUrl = import.meta.env.VITE_API_BASE_URL;
@@ -240,6 +241,12 @@ const Navbar = ({ user, setUser }) => {
 
         {/* Right Side */}
         <div className="flex items-center gap-4 relative">
+
+
+          
+                {/* <Link to="/chat" className="flex items-center space-x-2">
+                            <MessageCircle className="w-5 h-5" />
+                                                         </Link>  */}
           {!user ? (
             <>
               <button

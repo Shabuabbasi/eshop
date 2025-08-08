@@ -13,12 +13,14 @@ import ProductDetail from "./pages/ProductDetail";
 import CategoryPage from "./pages/CategoryPage";
 import Profile from "./pages/Profile";
 import Contact from "./pages/Contact";
+import { Navigate } from "react-router-dom";
 
 // Components
 import Navbar from "./Components/landingPageComponents/Navbar";
 import ForgotPassword from "./Components/authComponents/ForgetPassword";
 import ResetPassword from "./Components/authComponents/ResetPassword";
 import Cart from "./pages/Cart";
+import ChatPage from "./Components/Chat";
 // import CartPage from "./pages/Cartpage";
 
 const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
@@ -60,6 +62,9 @@ function App() {
         <Route path="/cart" element={<Cart/>} />
         {/* Dashboard layout with nested routes handled in Profile */}
         <Route path="/dashboard/*" element={<Profile user={user} />} />
+
+
+         <Route path="/chat" element={user ? <ChatPage user={user} /> : <Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>
   );

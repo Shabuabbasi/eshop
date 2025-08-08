@@ -4,6 +4,9 @@ import axios from "axios";
 import Cart from "../Images/exploreImages/cart.svg";
 import { useCart } from "../Components/cartComponents/CartContext";
 import { toast } from 'react-toastify'
+import { MessageCircle } from "lucide-react";
+import {  Link } from "react-router-dom";
+
 
 const ProductDetail = () => {
   const location = useLocation();
@@ -19,21 +22,25 @@ const ProductDetail = () => {
   };
   const backendUrl = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    if (!product) {
-      const fetchProduct = async () => {
-        try {
-          const res = await axios.get(`${backendUrl}/api/products/${id}`);
-          setProduct(res.data.product);
-        } catch (err) {
-          setError("Product not found");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchProduct();
-    }
-  }, [id, product]);
+ 
+
+useEffect(() => {
+  if (!product) {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`${backendUrl}/api/products/${id}`);
+        setProduct(res.data.product);
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        setError("Product not found");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }
+}, [id, product, backendUrl]);
+
 
   if (loading)
     return (
@@ -89,12 +96,15 @@ const ProductDetail = () => {
             <span className="font-semibold">{product.seller?.name || "N/A"}</span>
           </p>
 
-          <div className="flex items-center text-yellow-500 space-x-2">
-            <span className="text-xl">★</span>
-            <span className="text-gray-800">
-              {product.rating || (4 + Math.random()).toFixed(1)} / 5
-            </span>
-          </div>
+         <div className="flex items-center text-yellow-500 space-x-2">
+  <span className="text-xl">★</span>
+  <span className="text-gray-800">
+    {product.averageRating?.toFixed(1) || "No rating"} / 5
+  </span>
+  {product.numReviews > 0 && (
+    <span className="text-sm text-gray-500">({product.numReviews} reviews)</span>
+  )}
+</div>
 
           <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
             {product.description}
@@ -106,6 +116,13 @@ const ProductDetail = () => {
             <img src={Cart} alt="Cart" className="w-5 h-5" />
             Add to Cart
           </button>
+<Link
+  to={`/chat?productId=${product._id}&sellerId=${product.seller?._id}`}
+  className="flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full hover:bg-blue-200 transition"
+>
+  <MessageCircle className="w-5 h-5 text-blue-600" />
+  <span className="text-blue-700 font-medium">Chat with Seller</span>
+</Link>
         </div>
       </div>
     </div>

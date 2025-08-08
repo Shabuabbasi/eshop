@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { assets } from "../../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from '@react-oauth/google';
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { motion } from "framer-motion"; // ✅ Fixed: Added missing import
 
 const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
 
@@ -79,7 +79,7 @@ const AuthForm = ({
                   theme="filled_black"
                   size="large"
                   shape="pill"
-                  width="auto"
+                  width="250"
                 />
               </div>
             </div>
@@ -120,7 +120,7 @@ const AuthForm = ({
             />
           </div>
 
-          {/* Password input with show/hide */}
+          {/* Password input */}
           <div className="border border-gray-300 px-6 py-3 flex items-center gap-3 rounded-full mt-4 relative">
             <img src={assets.lock_icon} alt="Password" className="w-5 h-5" />
             <input
@@ -140,7 +140,7 @@ const AuthForm = ({
             </span>
           </div>
 
-          {/* Confirm Password with toggle */}
+          {/* Confirm password (Signup only) */}
           {mode === "Signup" && (
             <div className="border border-gray-300 px-6 py-3 flex items-center gap-3 rounded-full mt-4 relative">
               <img src={assets.lock_icon} alt="Confirm Password" className="w-5 h-5" />
@@ -162,6 +162,7 @@ const AuthForm = ({
             </div>
           )}
 
+          {/* Role selection */}
           {mode === "Signup" && (
             <div className="mt-4">
               <label className="block text-sm font-medium mb-2">Signup as:</label>
@@ -210,6 +211,7 @@ const AuthForm = ({
           </span>
         </p>
       </motion.div>
+      <ToastContainer />
     </div>
   );
 };
