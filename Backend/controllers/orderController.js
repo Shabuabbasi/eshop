@@ -1,5 +1,7 @@
 import Order from '../models/orderModel.js';
 import Product from '../models/productModel.js';
+import User from '../models/userModel.js';
+import Review from '../models/reviewModel.js';
 
 export const confirmOrder = async (req, res) => {
   try {
@@ -27,7 +29,7 @@ export const confirmOrder = async (req, res) => {
     const order = await Order.create({
       user: userId,
       items: items.map(i => ({ product: i.productId, quantity: i.quantity })),
-      status: 'Confirmed',
+      status: 'Pending',
       estimatedDelivery: new Date(Date.now() + Math.floor(Math.random() * 4 + 2) * 24 * 60 * 60 * 1000) // 2–5 days
     });
 
@@ -37,17 +39,45 @@ export const confirmOrder = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
 export const getUserOrders = async (req, res) => {
   try {
+    // Step 1: Fetch all orders by the user
     const orders = await Order.find({ user: req.user._id })
-      .populate('items.product', 'name price image') // Get product info
+      .populate('items.product', 'name price image')
       .sort({ createdAt: -1 });
 
-    res.json({ success: true, orders });
+    // Step 2: Fetch all reviews by this user
+    const reviews = await Review.find({ user: req.user._id });
+
+    // Step 3: Add a "reviewed" flag to each product in each order
+    const reviewedMap = {};
+    reviews.forEach((review) => {
+      reviewedMap[`${review.order}_${review.product}`] = true;
+    });
+
+    const ordersWithReviewFlags = orders.map((order) => {
+      const updatedItems = order.items.map((item) => {
+        const hasReviewed = reviewedMap[`${order._id}_${item.product._id}`] || false;
+        return {
+          ...item.toObject(),
+          reviewed: hasReviewed,
+        };
+      });
+
+      return {
+        ...order.toObject(),
+        items: updatedItems,
+      };
+    });
+
+    res.json({ success: true, orders: ordersWithReviewFlags });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 };
+
+
 //Cancel Order
 export const cancelOrder = async (req, res) => {
   try {
@@ -58,7 +88,13 @@ export const cancelOrder = async (req, res) => {
     if (order.status === "Cancelled") {
       return res.status(400).json({ message: "Order is already cancelled" });
     }
+    if (order.status === "Shipped") {
+      return res.status(401).json({ message: "Order has already been shipped and cannot be cancelled." });
+    }
 
+    if (order.status === "Delivered") {
+      return res.status(401).json({ message: "Order has already been delivered. Contact support for returns." });
+    }
     // Restore stock
     if (["Pending", "Confirmed"].includes(order.status)) {
       for (const item of order.items) {
@@ -79,7 +115,7 @@ export const cancelOrder = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
- 
+
 export const getCourierOrders = async (req, res) => {
   try {
     const { courierId } = req.params;
@@ -111,7 +147,6 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
 export const assignCourier = async (req, res) => {
   try {
     const { courierId } = req.body;
@@ -119,11 +154,21 @@ export const assignCourier = async (req, res) => {
     const order = await Order.findById(req.params.id);
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
+    const courier = await User.findById(courierId);
+    if (!courier || courier.role !== 'Courier') {
+      return res.status(400).json({ message: 'Invalid courier ID or user is not a courier' });
+    }
+
+    // Assign courier and update status
     order.courier = courierId;
+    order.status = 'Confirmed';
+
     await order.save();
 
-    res.json({ success: true, message: 'Courier assigned', order });
+    res.json({ success: true, message: 'Courier assigned and order confirmed', order });
   } catch (err) {
+    console.error("Assign courier error:", err);
     res.status(500).json({ success: false, message: err.message });
   }
 };
+

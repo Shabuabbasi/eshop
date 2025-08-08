@@ -9,6 +9,7 @@ const linksByRole = {
     { label: "Orders", href: "/dashboard/orders" },
     { label: "Wishlist", href: "/dashboard/wishlist" },
     { label: "Cart", href: "/dashboard/cart" },
+    { label: "reviews", href: "/dashboard/my-reviews" },
     { label: "Settings", href: "/dashboard/settings" },
   ],
   Seller: [
@@ -16,6 +17,7 @@ const linksByRole = {
     { label: "Add Product", href: "/dashboard/add-product" },
     { label: "All Products", href: "/dashboard/all-products" },
     { label: "Orders Received", href: "/dashboard/orders-received" },
+    { label: "Customer Reviews", href: "/dashboard/reviews" },
     { label: "Settings", href: "/dashboard/settings" },
   ],
   Courier: [
@@ -29,6 +31,7 @@ const linksByRole = {
     { label: "All Users", href: "/dashboard/users" },
     { label: "All Products", href: "/dashboard/products" },
     { label: "All Orders", href: "/dashboard/orders" },
+    { label: "Assign Courier", href: "/dashboard/assign" },
     { label: "Settings", href: "/dashboard/settings" },
   ],
 };

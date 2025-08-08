@@ -43,6 +43,7 @@ export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate('user', 'name email')
+      .populate('courier', 'name email')
       .populate({
         path: 'items.product',
         populate: {
@@ -54,6 +55,15 @@ export const getAllOrders = async (req, res) => {
     res.status(200).json({ success: true, orders });
   } catch (err) {
     console.error('Get all orders error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+export const getAllCouriers = async (req, res) => {
+  try {
+    const couriers = await User.find({ role: 'Courier' }).select('-password');
+    res.status(200).json({ success: true, couriers });
+  } catch (err) {
+    console.error('Error fetching couriers:', err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };

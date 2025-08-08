@@ -11,6 +11,8 @@ import sellerRoutes from './Routes/sellerRoutes.js'
 import wishlistRoutes from './Routes/wishlistRoutes.js'
 import adminRoutes from './Routes/adminRoutes.js'
 import searchRoute from './Routes/searchRoute.js'
+import courierRoutes from './Routes/courierRoutes.js'
+import reviewRoutes from './Routes/reviewRoutes.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -46,10 +48,15 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/seller', sellerRoutes)
 app.use("/api/wishlist", wishlistRoutes);
 app.use('/api/admin', adminRoutes);
+<<<<<<< HEAD
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', chatRoutes);
 app.use('/api/chat', chatRoutes);
 
+=======
+app.use('/api/courier',courierRoutes);
+app.use('/api/reviews', reviewRoutes);
+>>>>>>> 22865adb940ce0431572c5b1a6ccffecba64f63d
 
 const server = http.createServer(app);
 
