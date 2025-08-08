@@ -20,11 +20,11 @@ import Navbar from "./Components/landingPageComponents/Navbar";
 import ForgotPassword from "./Components/authComponents/ForgetPassword";
 import ResetPassword from "./Components/authComponents/ResetPassword";
 import Cart from "./pages/Cart";
-<<<<<<< HEAD
+
 import ChatPage from "./Components/Chat";
-=======
+
 import Chatbot from "./Components/Chatbot";
->>>>>>> 22865adb940ce0431572c5b1a6ccffecba64f63d
+
 // import CartPage from "./pages/Cartpage";
 
 const backendUrl = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
