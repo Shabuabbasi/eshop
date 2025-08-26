@@ -1,0 +1,94 @@
+[
+  {
+    "question": "How do I reset my password?",
+    "answer": "To reset your password, navigate to your account settings, click on 'Security', and then select 'Reset Password'. You will receive a confirmation link via email."
+  },
+  {
+    "question": "How can I become a seller?",
+    "answer": "To register as a seller, go to the homepage and click on 'Become a Seller'. Complete the registration form, upload required documents, and wait for approval from our team."
+  },
+  {
+    "question": "How do I track my order?",
+    "answer": "Log in to your account and go to the 'My Orders' section. Each order will display its current status along with a tracking link if the order has been shipped."
+  },
+  {
+    "question": "What payment methods do you accept?",
+    "answer": "We support multiple payment options including credit/debit cards (Visa, Mastercard), JazzCash, Easypaisa, and direct bank transfers."
+  },
+  {
+    "question": "Can I edit my review after submission?",
+    "answer": "Unfortunately, editing submitted reviews is currently not supported. If you need to make changes, please contact our customer support team with your request."
+  },
+  {
+    "question": "What is your return and refund policy?",
+    "answer": "We offer a 7-day return policy on most items. To initiate a return, go to 'My Orders', select the item, and click 'Request Return'. Refunds are processed within 5\u20137 business days after item verification."
+  },
+  {
+    "question": "How do I contact customer support?",
+    "answer": "You can reach our customer support via the chatbot, the 'Help Center', or by emailing support@yourdomain.com. Live chat is available 9 AM to 9 PM (Mon\u2013Sat)."
+  },
+  {
+    "question": "Why was my order cancelled automatically?",
+    "answer": "Orders may be cancelled automatically if payment is not confirmed within the allotted time, or if the seller fails to confirm shipment. You\u2019ll receive a full refund in such cases."
+  },
+  {
+    "question": "Is Cash on Delivery (COD) available?",
+    "answer": "Yes, we offer Cash on Delivery for selected products and cities. This option will be visible at checkout if it\u2019s available for your area."
+  },
+  {
+    "question": "How do I update my shipping address?",
+    "answer": "To update your shipping address, go to 'Profile > Addresses' and click 'Edit'. You can also add new addresses during checkout."
+  },
+  {
+    "question": "How do I submit a product review?",
+    "answer": "After your order is delivered, go to 'My Orders' > click on the delivered product > 'Write a Review'."
+  },
+  {
+    "question": "Where can I view my cart?",
+    "answer": "Click on the cart icon in the navbar or go to 'Dashboard > Cart' to view items you've added."
+  },
+  {
+    "question": "How do I update my profile information?",
+    "answer": "Navigate to 'Dashboard > Settings'. You can update your full name, address, ID, gender, DOB, and more."
+  },
+  {
+    "question": "Can I cancel my order?",
+    "answer": "You can cancel an order before it is confirmed by the seller. Go to 'My Orders', select the pending order, and click 'Cancel'."
+  },
+  {
+    "question": "How does the wishlist work?",
+    "answer": "You can save products to your wishlist by clicking the heart icon. Access it via 'Dashboard > Wishlist'."
+  },
+  {
+    "question": "What are the order statuses?",
+    "answer": "Order statuses include: Pending, Confirmed, Shipped, Delivered, and Cancelled. You can view these in 'My Orders'."
+  },
+  {
+    "question": "How do I upload a product as a seller?",
+    "answer": "Go to 'Seller Dashboard > Add Product', fill in the form with product details, upload images, and submit."
+  },
+  {
+    "question": "How can I edit or delete my product?",
+    "answer": "In the seller dashboard, go to 'My Products', select the product, and click 'Edit' or 'Delete'."
+  },
+  {
+    "question": "Where can I see reviews for my products?",
+    "answer": "In your seller dashboard, go to 'Product Reviews' to see customer feedback on your listed items."
+  },
+  {
+    "question": "Can I assign a courier for an order?",
+    "answer": "Only admins can assign couriers. Once assigned, the courier will update the delivery status from their dashboard."
+  },
+  {
+    "question": "How do couriers update delivery status?",
+    "answer": "Couriers can go to 'Courier Dashboard > Assigned Orders', and click 'Update Status' after completing delivery."
+  },
+  {
+    "question": "How can I log in?",
+    "answer": "Click the login button on the top right, and enter your email and password. Admins can also use Google login."
+  },
+  {
+    "question": "What happens after I confirm an order?",
+    "answer": "Once confirmed, the admin assigns a courier. You\u2019ll receive updates as the product is shipped and delivered."
+  }
+]
